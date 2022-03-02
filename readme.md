@@ -1,4 +1,4 @@
-## CS:GO Skin Tester
+## CS:GO Inspect Link
 
 This app allows inspecting skins from other players in-game, on a game server.
 This works by providing an inspect link for the desired skin.
@@ -159,7 +159,6 @@ If the player is already connected to the server, no action is needed. He will b
 |market_hash_name|string|Yes|The `market_hash_name` of the CS:GO skin that the player should be equipped with.
 |seed|integer|No|The seed (also called pattern ID) that should be used for the skin. This must be a number between `1` and `1000`. This can be used to apply a special version of a Fade or Case Hardened skin.
 |paintkit|integer|No|The paintkit index (also called finish catalog) that should be used for the skin. This can be used to apply a certain phase for a Doppler or Gamma Doppler.
-|ip|string|No|The IP address of the player that the skin should be sent to. If this is ommitted, the IP address of the client that makes the request is used.|
 
 ##### Description
 
@@ -183,7 +182,6 @@ See the response examples of [Send skin to player through inspect link](#send-sk
 |wear|float|No|The wear value that should be applied to the skin. Must be between `0.00000000000000001` and `0.99999999999999999`.
 |seed|integer|No|The seed (also called pattern ID) that should be used for the skin. This must be a number between `1` and `1000`. This can be used to apply a special version of a Fade or Case Hardened skin.
 |stattrak|integer|no|The StatTrak™ kill count that should be applied to the skin.
-|ip|string|No|The IP address of the player that the skin should be sent to. If this is ommitted, the IP address of the client that makes the request is used.|
 
 ##### Description
 
