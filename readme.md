@@ -16,7 +16,7 @@ This works by providing an inspect link for the desired skin.
 
 ### Install the SourceMod Plugin on your CS:GO server
 
-In order to work, this application needs a CS:GO server that connects to it through a socket. You need to install the CS:GO Skin Tester [SourceMod Plugin](https://github.com/chescos/csgo-skin-tester-sm) for that. Detailed instructions for the installation can be found in the readme of the repository.
+In order to work, this application needs a CS:GO server that connects to it through a socket. You need to install the CS:GO Inspect Link [SourceMod Plugin](https://github.com/zonenet/csgo-inspectlink-sm) for that. Detailed instructions for the installation can be found in the readme of the repository.
 
 Note that you can add the plugin to multiple CS:GO servers, and you can connect the plugin of each server to the same web app. This way, you can have one web app that works with any number of CS:GO servers.
 
@@ -28,7 +28,7 @@ This app requires at least one Steam account in order to extract data from the C
 You can add new Steam accounts to the database through the `node cmd account:create` command. Here's an example:
 
 ```
-node cmd account:create --user user123 --password password123 --secret secret123
+node cmd account:create --username user123 --password password123 --secret secret123
 ```
 
 The `user` argument is the Steam username, the `password` argument is the account password, and the `secret` is the shared secret which is required to login through 2FA.
@@ -36,7 +36,7 @@ The `user` argument is the Steam username, the `password` argument is the accoun
 If you want to want to remove a Steam account from the database, simply use this command:
 
 ```
-node cmd account:destroy --user user123
+node cmd account:destroy --username user123
 ```
 
 ### Disable IPv6
@@ -69,7 +69,7 @@ curl -X PATCH "https://api.cloudflare.com/client/v4/zones/<zoneId>/settings/ipv6
 |NODE_ENV|string|development|The current environment. Possible values are `development` and `production`. Make sure to set this to `production` when you're going live.|
 |WEB_PORT|integer|3000|The port that the Express web server is listening to.|
 |SOCKET_PORT|integer|8080|The port that the socket server is listening to.|
-|APP_KEY|string|none|The app key. This key should be a random string that is used to encrypt Steam account credentials.|
+|APP_KEY|string|none|The app key. This key should be a random string that is used to encrypt Steam account credentials. needs to be 32 chars long!|
 |DATABASE_URL|string|none|The URL of the PostgreSQL database that is used by the application.|
 |DATABASE_DEBUG|boolean|true|Whether to log database queries or not.|
 |DATABASE_SSL|boolean|false|Whether to connect to the database through SSL.|
@@ -117,7 +117,6 @@ Here's a full list of all errors:
 |Parameter|Type|Required|Description|
 |-|-|-|-|
 |link|string|Yes|The inspect link of the CS:GO skin that the player should be equipped with.
-|ip|string|No|The IP address of the player that the skin should be sent to. If this is ommitted, the IP address of the client that makes the request is used.|
 
 ##### Description
 
@@ -131,8 +130,8 @@ Here's an example response that occurs when the player is not connected to the s
 {
   "success": true,
   "needs_to_connect": true,
-  "connect_to_server": "93.186.198.123:21015",
-  "connect_to_url": "steam://connect/93.186.198.123:21015"
+  "connect_to_server": "12.34.56.78:27015",
+  "connect_to_url": "steam://connect/12.34.56.78:27015"
 }
 ```
 
@@ -333,9 +332,7 @@ Here's an example response:
 
 The CS:GO Skin Tester backend works in conjunction with a set of related tools. At least the SourceMod plugin for the CS:GO server is required to make it work.
 
-- [NodeJS Backend](https://github.com/chescos/csgo-skin-tester) (this repository)
-- [SourceMod Plugin](https://github.com/chescos/csgo-skin-tester-sm)
-- [Frontend](https://github.com/chescos/csgo-skin-tester-frontend)
-- [Chrome Extension](https://github.com/chescos/csgo-skin-tester-extension)
+- [NodeJS Backend](https://github.com/zonenet/csgo-inspectlink) (this repository)
+- [SourceMod Plugin](https://github.com/chescos/csgo-inspectlink-sm)
 
 
