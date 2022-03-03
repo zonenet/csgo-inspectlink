@@ -247,3 +247,7 @@ The CS:GO Inspect Link backend works as a standalone in retrieving information a
 - [SourceMod Plugin](https://github.com/chescos/csgo-inspectlink-sm)
 
 
+
+## Credits
+
+This project is based upon [chescos's CS:GO Skin Tester](https://github.com/chescos/csgo-skin-tester)
