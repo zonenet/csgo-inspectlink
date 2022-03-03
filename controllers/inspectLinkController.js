@@ -55,7 +55,7 @@ exports.store = async (req, res) => {
   const data = {
     paintkit_name: skin.paintkit.name,
     paintkit_defindex: skin.paintkit.defindex,
-	paintindex: inspection.paintindex,
+	  paintindex: inspection.paintindex,
     item_name: skin.item.name,
     item_defindex: skin.item.defindex,
     item_class: skin.item.class,
@@ -63,8 +63,8 @@ exports.store = async (req, res) => {
     item_type: skin.item.type,
     wear: inspection.paintwear,
     seed: inspection.paintseed,
-	customname: inspection.customname,
-	stickers: inspection.stickers,
+	  customname: inspection.customname,
+	  stickers: inspection.stickers,
     stattrak: inspection.killeaterscoretype === 0 && inspection.killeatervalue !== null
       ? inspection.killeatervalue
       : -1,

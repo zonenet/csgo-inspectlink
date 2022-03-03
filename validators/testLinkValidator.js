@@ -13,10 +13,5 @@ exports.store = validate([
       }
 
       return true;
-    }),
-
-  body('ip')
-    .optional()
-    .isString()
-    .isIP(4),
+    })
 ]);
