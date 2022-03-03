@@ -7,7 +7,6 @@ module.exports = {
   env: env.NODE_ENV || 'development',
   appKey: env.APP_KEY,
   webPort: env.WEB_PORT || 3000,
-  socketPort: env.SOCKET_PORT || 8080,
 
   database: {
     url: env.DATABASE_URL,

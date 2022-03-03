@@ -8,8 +8,7 @@ const Skin = require('../database/models/Skin');
 exports.store = async (req, res) => {
   const {
     body: {
-      link,
-      ip = req.ip,
+      link
     },
   } = req;
 
@@ -54,9 +53,9 @@ exports.store = async (req, res) => {
   }
 
   const data = {
-    ip,
     paintkit_name: skin.paintkit.name,
     paintkit_defindex: skin.paintkit.defindex,
+	paintindex: inspection.paintindex,
     item_name: skin.item.name,
     item_defindex: skin.item.defindex,
     item_class: skin.item.class,
@@ -64,34 +63,13 @@ exports.store = async (req, res) => {
     item_type: skin.item.type,
     wear: inspection.paintwear,
     seed: inspection.paintseed,
+	customname: inspection.customname,
+	stickers: inspection.stickers,
     stattrak: inspection.killeaterscoretype === 0 && inspection.killeatervalue !== null
       ? inspection.killeatervalue
       : -1,
   };
+  
 
-  const isPlayerConnected = gameServer.isPlayerConnected(ip);
-  const availableServer = gameServer.getAvailableServer();
-
-  const allServersFull = !isPlayerConnected
-    && availableServer === null
-    && config.get('env') === 'production';
-
-  if (allServersFull) {
-    return res.status(500).json(ErrorResponse.allServersFull());
-  }
-
-  if (isPlayerConnected) {
-    gameServer.sendSkin(data);
-    logger.info('Sent skin', data);
-  } else {
-    gameServer.queueSkin(data);
-    logger.info('Queued skin', data);
-  }
-
-  return res.status(201).json({
-    success: true,
-    needs_to_connect: !isPlayerConnected,
-    connect_to_server: isPlayerConnected ? null : availableServer,
-    connect_to_url: isPlayerConnected ? null : `steam://connect/${availableServer}`,
-  });
+  return res.status(201).json(data);
 };

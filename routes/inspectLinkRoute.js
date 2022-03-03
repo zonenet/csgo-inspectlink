@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
-const controller = require('../controllers/testNameController');
-const validator = require('../validators/testNameValidator');
+const controller = require('../controllers/inspectLinkController');
+const validator = require('../validators/testLinkValidator');
 
 router.post(
   '/',

@@ -16,9 +16,9 @@ This works by providing an inspect link for the desired skin.
 
 ### Install the SourceMod Plugin on your CS:GO server
 
-In order to work, this application needs a CS:GO server that connects to it through a socket. You need to install the CS:GO Inspect Link [SourceMod Plugin](https://github.com/zonenet/csgo-inspectlink-sm) for that. Detailed instructions for the installation can be found in the readme of the repository.
+In order to work, you need to install the CS:GO Inspect Link [SourceMod Plugin](https://github.com/zonenet/csgo-inspectlink-sm). Detailed instructions for the installation can be found in the readme of the repository.
 
-Note that you can add the plugin to multiple CS:GO servers, and you can connect the plugin of each server to the same web app. This way, you can have one web app that works with any number of CS:GO servers.
+Note that you can add the plugin to multiple CS:GO servers. This way, you can have one web app that works with any number of CS:GO servers.
 
 
 ### Add Steam Accounts
@@ -31,35 +31,12 @@ You can add new Steam accounts to the database through the `node cmd account:cre
 node cmd account:create --username user123 --password password123 --secret secret123
 ```
 
-The `user` argument is the Steam username, the `password` argument is the account password, and the `secret` is the shared secret which is required to login through 2FA.
+The `username` argument is the Steam username, the `password` argument is the account password, and the `secret` is the shared secret which is required to login through 2FA.
 
 If you want to want to remove a Steam account from the database, simply use this command:
 
 ```
 node cmd account:destroy --username user123
-```
-
-### Disable IPv6
-
-You should disable support for IPv6 requests when hosting this web app. The reason is that players are identified by their IP address, and CS:GO servers only support IPv4. So the player will have an IPv4 address on the CS:GO server, and if he makes a request to the web app through IPv6, then he won't be identified correctly on the CS:GO server.
-
-If you're using Cloudflare, you can disable IPv6 through an [API call](https://api.cloudflare.com/#zone-settings-change-ipv6-setting). First, get the ID of the zone (domain) that you want to disable IPv6 for:
-
-```bash
-curl -X GET "https://api.cloudflare.com/client/v4/zones" \
-     -H "X-Auth-Email: <userEmail>" \
-     -H "X-Auth-Key: <apiKey>" \
-     -H "Content-Type: application/json"
-```
-
-And then disable IPv6 for your zone:
-
-```bash
-curl -X PATCH "https://api.cloudflare.com/client/v4/zones/<zoneId>/settings/ipv6" \
-     -H "X-Auth-Email: <userEmail>" \
-     -H "X-Auth-Key: <apiKey>" \
-     -H "Content-Type: application/json" \
-     --data '{"value":"off"}'
 ```
 
 ## Environment Variables
@@ -68,7 +45,6 @@ curl -X PATCH "https://api.cloudflare.com/client/v4/zones/<zoneId>/settings/ipv6
 |-|-|-|-|
 |NODE_ENV|string|development|The current environment. Possible values are `development` and `production`. Make sure to set this to `production` when you're going live.|
 |WEB_PORT|integer|3000|The port that the Express web server is listening to.|
-|SOCKET_PORT|integer|8080|The port that the socket server is listening to.|
 |APP_KEY|string|none|The app key. This key should be a random string that is used to encrypt Steam account credentials. needs to be 32 chars long!|
 |DATABASE_URL|string|none|The URL of the PostgreSQL database that is used by the application.|
 |DATABASE_DEBUG|boolean|true|Whether to log database queries or not.|
@@ -106,11 +82,11 @@ Here's a full list of all errors:
 
 ### Endpoints
 
-#### Send skin to player through inspect link
+#### Inspect specific item
 
 ##### Endpoint
 
-`POST /tests/link`
+`POST /inspectlink`
 
 ##### Input Parameters
 
@@ -120,76 +96,13 @@ Here's a full list of all errors:
 
 ##### Description
 
-This endpoint sends a skin to a player on the CS:GO game server based on a provided inspect link. If the player is already connected to the CS:GO server, he will be immediately equipped with the skin. If the player is not connected to the CS:GO server yet, this endpoint will return a URL that the player can be connected to via Javascript (e.g `window.location`).
+This endpoint retrieve information about a specific CS:GO Item.
 
 ##### Response Examples
-
-Here's an example response that occurs when the player is not connected to the server yet. On the client side, you should always check for the `needs_to_connect` property and if it is `true`, then use the `connect_to_url` to connect the player to the CS:GO server. This can be done by visiting the URL in the browser, e.g through `window.location`. After the user connects to the server, he will be automatically equipped with the skin.
 
 ```json
-{
-  "success": true,
-  "needs_to_connect": true,
-  "connect_to_server": "12.34.56.78:27015",
-  "connect_to_url": "steam://connect/12.34.56.78:27015"
-}
+INSERT EXAMPLE HERE
 ```
-
-If the player is already connected to the server, no action is needed. He will be immediately equipped with the CS:GO skin.
-
-```json
-{
-  "success": true,
-  "needs_to_connect": false,
-  "connect_to_server": null,
-  "connect_to_url": null
-}
-```
-
-#### Send skin to player through `market_hash_name`
-
-##### Endpoint
-
-`POST /tests/name`
-
-##### Input Parameters
-
-|Parameter|Type|Required|Description|
-|-|-|-|-|
-|market_hash_name|string|Yes|The `market_hash_name` of the CS:GO skin that the player should be equipped with.
-|seed|integer|No|The seed (also called pattern ID) that should be used for the skin. This must be a number between `1` and `1000`. This can be used to apply a special version of a Fade or Case Hardened skin.
-|paintkit|integer|No|The paintkit index (also called finish catalog) that should be used for the skin. This can be used to apply a certain phase for a Doppler or Gamma Doppler.
-
-##### Description
-
-This endpoint sends a skin to a player on the CS:GO game server based on a provided `market_hash_name`. See the description of [Send skin to player through inspect link](#send-skin-to-player-through-inspect-link) for more details.
-
-##### Response Examples
-
-See the response examples of [Send skin to player through inspect link](#send-skin-to-player-through-inspect-link).
-
-#### Send skin to player through skin `id`
-
-##### Endpoint
-
-`POST /tests/id`
-
-##### Input Parameters
-
-|Parameter|Type|Required|Description|
-|-|-|-|-|
-|skin_id|integer|Yes|The `id` of the CS:GO skin that the player should be equipped with.
-|wear|float|No|The wear value that should be applied to the skin. Must be between `0.00000000000000001` and `0.99999999999999999`.
-|seed|integer|No|The seed (also called pattern ID) that should be used for the skin. This must be a number between `1` and `1000`. This can be used to apply a special version of a Fade or Case Hardened skin.
-|stattrak|integer|no|The StatTrak™ kill count that should be applied to the skin.
-
-##### Description
-
-This endpoint sends a skin to a player on the CS:GO game server based on a provided skin `id`. See the description of [Send skin to player through inspect link](#send-skin-to-player-through-inspect-link) for more details.
-
-##### Response Examples
-
-See the response examples of [Send skin to player through inspect link](#send-skin-to-player-through-inspect-link).
 
 #### List all items
 
@@ -328,7 +241,7 @@ Here's an example response:
 
 ## Software Suite
 
-The CS:GO Skin Tester backend works in conjunction with a set of related tools. At least the SourceMod plugin for the CS:GO server is required to make it work.
+The CS:GO Inspect Link backend works as a standalone in retrieving information about a skin, but to inspect a skin in-game the SourceMod plugin is required.
 
 - [NodeJS Backend](https://github.com/zonenet/csgo-inspectlink) (this repository)
 - [SourceMod Plugin](https://github.com/chescos/csgo-inspectlink-sm)
