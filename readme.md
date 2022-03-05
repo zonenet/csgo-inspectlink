@@ -101,7 +101,55 @@ This endpoint retrieve information about a specific CS:GO Item.
 ##### Response Examples
 
 ```json
-INSERT EXAMPLE HERE
+{
+    "ip": "192.168.50.102",
+    "paintkit_name": "Night Terror",
+    "paintkit_defindex": 1130,
+    "paintindex": 1130,
+    "item_name": "M4A1-S",
+    "item_defindex": 60,
+    "item_class": "weapon_m4a1",
+    "item_name_technical": "weapon_m4a1_silencer",
+    "item_type": "Rifle",
+    "wear": 0.30472201108932495,
+    "seed": 303,
+    "customname": null,
+    "stickers": [
+        {
+            "slot": 0,
+            "sticker_id": 5022,
+            "wear": null,
+            "scale": null,
+            "rotation": null,
+            "tint_id": null
+        },
+        {
+            "slot": 1,
+            "sticker_id": 5022,
+            "wear": null,
+            "scale": null,
+            "rotation": null,
+            "tint_id": null
+        },
+        {
+            "slot": 2,
+            "sticker_id": 5022,
+            "wear": null,
+            "scale": null,
+            "rotation": null,
+            "tint_id": null
+        },
+        {
+            "slot": 3,
+            "sticker_id": 5022,
+            "wear": null,
+            "scale": null,
+            "rotation": null,
+            "tint_id": null
+        }
+    ],
+    "stattrak": -1
+}
 ```
 
 #### List all items
