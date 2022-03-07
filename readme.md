@@ -102,7 +102,6 @@ This endpoint retrieve information about a specific CS:GO Item.
 
 ```json
 {
-    "ip": "192.168.50.102",
     "paintkit_name": "Night Terror",
     "paintkit_defindex": 1130,
     "paintindex": 1130,
