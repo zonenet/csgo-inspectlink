@@ -2,7 +2,7 @@ const config = require('config');
 const Inspector = require('../modules/Inspector');
 const ErrorResponse = require('../modules/ErrorResponse');
 const logger = require('../modules/Logger');
-const gameServer = require('../modules/GameServer');
+
 const Skin = require('../database/models/Skin');
 
 exports.store = async (req, res) => {
